@@ -3,20 +3,21 @@
 #include <locale.h> //biblioteca de alocações de texto por região
 #include <string.h> //biblioteca responsável por cuidar das string
 
-int registro()
-{
+int registro() //função para cadastrar os usuários
+{ 
+// criação de variaveis e strings
     char arquivo[40];
     char cpf[40];
     char nome[40];
     char sobrenome[40];
     char cargo[40];
 
-    printf("Digite o CPF a ser cadastrado: ");
-    scanf("%s", cpf);
+    printf("Digite o CPF a ser cadastrado: "); // coletando informações do usuario
+    scanf("%s", cpf); //%s refere-se a String
 
-    strcpy(arquivo, cpf);
+    strcpy(arquivo, cpf); // responsável por copiar os valores das Strings
 
-    FILE *file = fopen(arquivo, "w"); // corretíssimo agora (w minúsculo)
+    FILE *file = fopen(arquivo, "w"); // cria o arquivo com identificador - cpf
     if(file == NULL){
         printf("Erro ao criar o arquivo!\n");
         system("pause");
@@ -32,7 +33,7 @@ int registro()
     printf("Digite o cargo a ser cadastrado: ");
     scanf("%s", cargo);
 
-    // Agora salva tudo de uma vez, formatado
+    // Salva todos os dados devidamente formatado
     fprintf(file, "%s,%s,%s,%s\n", cpf, nome, sobrenome, cargo);
 
     fclose(file);
@@ -49,12 +50,12 @@ int consulta()
     char cpf[40];
     char conteudo[200];
 
-    printf("Digite o CPF a ser consultado: ");
+    printf("Digite o CPF a ser consultado: "); // recebendo qual usuario vai ser consultado
     scanf("%s", cpf);
 
-    FILE *file = fopen(cpf, "r");
+    FILE *file = fopen(cpf, "r"); //função ler
 
-    if(file == NULL)
+    if(file == NULL) //variavel para o arquivo não ser nulo
     {
         printf("Usuário não encontrado!\n");
         system("pause");
@@ -86,7 +87,7 @@ int deletar()
     char cpf[40];
 
     printf("Digite o CPF do usuário a ser deletado: ");
-    scanf("%s", cpf);
+    scanf("%s", cpf); //procura o documento com o cpf indicado
 
     if(remove(cpf) == 0)
         printf("Usuário deletado com sucesso!\n");
@@ -97,12 +98,43 @@ int deletar()
     return 0;
 }
 
+int login()
+{
+    char usuario[20];
+    char senha[20];
+
+    printf("===== LOGIN =====\n");
+    printf("Usuário: ");
+    scanf("%s", usuario);
+
+    printf("Senha: ");
+    scanf("%s", senha);
+
+    if(strcmp(usuario, "admin") == 0 && strcmp(senha, "a") == 0)
+    {
+        printf("\nLogin realizado com sucesso!\n");
+        system("pause");
+        return 1; // acesso permitido
+    }
+    else
+    {
+        printf("\nUsuário ou senha incorretos!\n");
+        system("pause");
+        return 0; // acesso negado
+    }
+}
+
+
 int main ()
 {
 
 	int opcao=0; //Definindo variáveis
 	int laco=1;
-	
+	if(login() == 0)
+{
+    return 0; // encerra se login falhar
+}
+
 	while(1)
 	{
 		
@@ -146,9 +178,9 @@ int main ()
 			printf("Essa opção não está disponível!\n");
 			system("pause");
 			break;
-		}
+		} // fim da seleção
 		
-	
+		
 	}
 
 }
